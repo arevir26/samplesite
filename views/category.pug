@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet" href="../css/bootstrap.min.css" )
+  body
+    div.container
+      div.col-md-12.col.jumbotron#header
+        h4.text-center Admin Panel
+
+      div.row
+        form(action="/admin/category/add" method="GET").form-inline.col-lg-5.align-self-start
+          span(labelfor="category") Category:&nbsp;
+          input(type="text" name="category" style="width: 8em" )
+          input.btn.btn-success(type="submit" value="Add Category" style="margin-left:1em")
+        ul.col.list-group
+          - var categorylist = (categories) ? categories : [{name:"Action",id:"12354"}];
+          each category in categorylist
+            li.list-group-item= category.category_name
+              a(href="/admin/category/delete/"+category.category_id style="float:right") remove
+    script(type="javascript" src="./css/bootstrap.js")

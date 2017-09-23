@@ -1,0 +1,187 @@
+body{
+  background: #f1f1f1;
+  width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: Verdana,Calibri,sans-serif;
+}
+
+.head{
+background: black;
+color: white;  
+}
+
+.head h2{
+  text-align: center;
+  margin: 0;
+  padding: 1em;
+}
+
+nav ul{
+  background: grey;
+  list-style: none;
+ 
+}
+
+nav ul li{
+  display: inline-block;
+}
+
+nav li a{
+  display: inline-block;
+  padding: 0.5em 1em 0.5em 1em;
+  text-decoration: none;
+  color: inherit;
+}
+
+.search-form{
+  float: right;
+  margin-top: 0.4em;
+  margin-right: 0.5em;
+}
+
+li a:hover{
+  background: red;
+}
+
+.movieinfo{
+  width: 30%;
+  background: white;
+  border-bottom: 1px dotted grey;
+  float: left;
+}
+
+.movieinfo h4{
+  text-align: center;
+  margin: 0;
+  padding: 0.5em;
+  background: black;
+  color: white
+}
+
+.moviedetails{
+  padding: 0.5em;
+}
+
+.videocontainer{
+  width: 70%;
+  min-height: 200px;
+  background: inherit;
+  float: right;
+  text-align: center;
+  padding-bottom: 1em;
+}
+
+video{
+  margin-top: 1em;
+  margin-bottom: 1em;
+  background: grey;
+}
+
+.footer{
+  text-align: center;
+  padding: 2em;
+  background: black;
+  color: white;
+}
+
+.category-list a{
+  display: block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  color: inherit;
+}
+
+.category-list a:hover{
+  background: grey;
+  color: white;
+}
+
+.selected{
+  background: grey;
+  color: black;
+  font-weight: bold;
+}
+
+.movieitem{
+  width: 30%;
+  background: white;
+  float: left;
+  margin: 0.5em;
+  margin-top: 1em;
+  padding-top: 1em;
+}
+
+.movieitem h4{
+  margin: 0;
+  padding: 0.5em;
+  
+}
+
+.movieitem a{
+  text-decoration: none;
+}
+
+.sortbar{
+  text-align: left;
+  padding: 1em;
+  background: black;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  color: white;
+}
+
+.clearfloat{
+  clear: both;
+}
+
+.centered{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.admin-form{
+  background: white;
+  margin-bottom: 1em;
+}
+
+.admin-form thead{
+  background: black;
+  color: white;
+}
+
+.admin-form th{
+  padding: 0.5em;
+}
+
+.admin-form td{
+  padding-top: 1em;
+}
+
+.admin-submit-btn{
+  padding: 0.5em;
+  font-weight: bold;
+}
+
+.categorypanel{
+  width: 60%;
+  background: white;
+}
+.categorypanel ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categorypanel li{
+  border-bottom: 1px solid #f0f0f0;
+  padding: 1em;
+}
+
+
+.category-modify{
+  float: right;
+}
+.category-modify a:hover{
+  background: inherit;
+}

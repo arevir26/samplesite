@@ -1,0 +1,50 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet" href="../../css/bootstrap.min.css" )
+  body
+    div.container
+      div.col-md-12.col.jumbotron#header
+        h4.text-center Admin Panel
+
+      div.row    
+        form.col.col-lg-4
+          div.row
+            h4.col(style="margin-bottom:1em;padding:0.5em").text-center.bg-success.text-white Movie
+          div.row.form-group
+            span.col Movie Name:&nbsp;
+            input(type="text" name="moviename" placeholder="Movie Name").col
+          div.row.form-group
+            span.col MovieID:
+            input.col(type="text" name="movieid" disabled )
+          div.row.form-group
+            span.col Released:
+            input.col(type="text" name="movierelease" placeholder="Year of Release" )
+          div.row.form-group
+            span.col Movie URL:
+            input.col(type="text" name="movieurl" placeholder="File Path")
+          div.row.form-group
+            span.col Category:
+            select(type="text" name="categories" multiple="" ).col
+              option(value="1") Adventure
+              option(value="2") Action
+          div.row.form-group
+            div.col
+            input.col.btn.btn-success(type="submit" value="Add/Update" style="margin:1em")
+        div.col(style="padding-left:2em")
+          h3.alert-success List of Movies
+          ul.list-group.container
+            li.list-group-item.row
+              span.col Movie Name
+              span.col 1990
+              span.col Adventure/Action/Cartoons
+              a(href="#" ).col Edit
+              a(href="#" ).col Delete
+            li.list-group-item.row
+              span.col Movie Name
+              span.col 1990
+              span.col Adventure/Action/Cartoons
+              a(href="#" id="movieid").col Edit
+            
+    script(type="javascript" src="../css/bootstrap.js")

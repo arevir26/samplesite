@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet" href="./css/bootstrap.min.css" )
+  body
+    div.container
+      div.col-md-12.col.jumbotron#header
+        h4.text-center Admin Login
+
+      div.container
+        form.col-md-4.align-self-center
+          div.row(style="margin-bottom:1em")
+            span.col Username:
+            input(type="text" name="username").col.col-md-6
+          div.row(style="margin-bottom:1em")
+            span.col Password:
+            input(type="text" name="password").col.col-md-6  
+          button(type="submit").btn.btn-outline-success.col Login
+    script(type="javascript" src="./css/bootstrap.js")

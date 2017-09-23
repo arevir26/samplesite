@@ -1,0 +1,41 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet" href="../../css/bootstrap.min.css" )
+  body
+    div.container
+      div.col-md-12.col.jumbotron#header
+        h4.text-center Admin Panel
+
+      div.row.align-center
+        form.col.col-lg-7.justify-align-center(method="POST" action="")
+          div.row
+            h4.col(style="margin-bottom:1em;padding:0.5em").text-center.bg-success.text-white Movie
+          div.row.form-group
+            span.col Movie Name:&nbsp;
+            input(type="text" name="moviename" placeholder="Movie Name").col
+          div.row.form-group
+            span.col MovieID:
+            input.col(type="text" name="movieid" disabled )
+          div.row.form-group
+            span.col Released:
+            input.col(type="text" name="movierelease" placeholder="Year of Release" )
+          div.row.form-group
+            span.col Movie URL:
+            input.col(type="text" name="movieurl" placeholder="File Path")
+          div.row.form-group
+            span.col Category:
+            div.col
+              each category in categories.length ? categories : []
+                input(name="categories" value=category.category_id type="checkbox")
+                | &nbsp; #{category.category_name}
+                br
+              
+          div.row.form-group
+            input.col.btn.btn-success(type="reset" value="Reset" style="margin:1em")
+            input.col.btn.btn-success(type="submit" value="Add/Update" style="margin:1em")
+      div.row
+        span= message
+            
+    script(type="javascript" src="../css/bootstrap.js")
