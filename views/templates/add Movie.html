@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+  Movie Title
+  </title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="head" >
+<h2>
+Movie Gallery
+</h2>
+<nav>
+<form class="search-form" >
+  <input type="text" placeholder="Search" />
+  <input type="submit" value="Go" />
+</form>
+  <ul>
+    <li><a href="#" >Home</a></li>
+    <li><a href="#" >Popular</a></li>
+  </ul>
+</nav>
+
+</div>
+<div class="main" >
+  <div class="centered" >
+    <table class="centered" cellspacing="10em" >
+      <tr>
+        <th colspan="2">Add Movie</th>
+      </tr>
+      <tr>
+        <td>Movie Name:</td>
+        <td><input type="text" name="movie_name" placeholder="Movie Name" /></td>
+      </tr>
+      <tr>
+        <td>Movie ID:</td>
+        <td><input type="text" name="movie_id" placeholder="Movie ID" disabled /></td>
+      </tr>
+      <tr>
+        <td>Year Released:</td>
+        <td><input type="text" name="movie_released" placeholder="Year" /></td>
+      </tr>
+      <tr>
+        <td>Movie Url:</td>
+        <td><input type="text" name="movie_url" placeholder="Unique Resource Locator" /></td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top;">Categories:</td>
+        <td>
+          <input type="checkbox" name="movie_category" value="id1" />&nbsp;Action<br />
+          <input type="checkbox" name="movie_category" value="id2" />&nbsp;Adventure<br />
+          <input type="checkbox" name="movie_category" value="id3" />&nbsp;Comedy<br />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="right"><input type="submit" name="add_movie" value="Submit" /></td>
+      </tr>
+    </table>    
+  </div>
+  <div class="clearfloat"></div>
+</div>
+
+<div class="footer">
+arevir26&copy;2017
+</div>
+</body>
+</html>
+

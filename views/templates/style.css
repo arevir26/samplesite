@@ -178,6 +178,10 @@ video{
   padding: 1em;
 }
 
+.sortbar a{
+  text-decoration:none;
+  color: grey;
+}
 
 .category-modify{
   float: right;
