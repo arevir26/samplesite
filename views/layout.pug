@@ -1,16 +1,35 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href=style)
-    style(rel='stylesheet') .nopadding{padding:0 !important;}
-  body
-    div.container.nopadding
-      block header
-        h3 Movie Gallery
-      include templates/nav.pug
-      block content
-      block footer
-        div
-          span footer
-    script(type='text/css' src=script )
+	head
+		title= title
+		link(rel="stylesheet", href="../style.css")
+	body
+		block header
+			div.head
+				h2 Movie Gallery
+				nav
+					form.search-form
+						input(type="text",placeholder="Search",name="search")
+						input(type="submit",value="Go")
+					ul
+						li
+							a(href="#") Home
+						li
+							a(href="#") Movies
+		div.main
+			block main
+				div.movieinfo
+					h4 Movie Title
+					div.moviedetails Release Date:
+					div.moviedetails Views:
+					div.moviedetails Category:
+						a(href="#") Action
+					div.moviedetails Date Added:
+				div.videocontainer
+					video(controls=true,width="640px")
+						source(src="../movies/3 Idiots (2010) BRRip/3 Idiots (00) Sample.mkv")
+				div.clearfloat
+		div.footer
+			block footer
+				| arevir26&copy;2017
+

@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href=style)
+    style(rel='stylesheet') .nopadding{padding:0 !important;}
+  body
+    div.container.nopadding
+      block header
+        h3 Movie Gallery
+      include templates/nav.pug
+      block content
+      block footer
+        div
+          span footer
+    script(type='text/css' src=script )

@@ -1,0 +1,23 @@
+extend layout
+
+block main
+	div.categorypanel.centered
+		ul
+			li= categorylist
+			li.category-item
+				span Category Name
+				span.category-modify
+					a(href="#") Rename
+					| &nbsp;|
+					a(href="#") Delete
+			li.category-item
+				span Category Name
+				span.category-modify
+					a(href="#") Rename
+					| &nbsp;|
+					a(href="#") Delete
+			li
+				form(style="text-align:right")
+					input(type="text", placeholder="New Category")
+					| &nbsp;
+					input(type="submit", value="Add Category")
