@@ -1,0 +1,30 @@
+DOCTYPE html
+
+html
+	head
+		title= Page.title
+		link(rel="stylesheet", ref="style.css")
+	body
+		block header
+			div.head
+				h2 Movie Gallery
+				nav
+					form.search-form
+						input(type="text" placeholder="Search" name="search")
+					ul
+						li
+							a(href="#") Home
+						li
+							a(href="#") Movies
+		div.main
+			block main
+				div.movieinfo
+					h4 Movie Title
+					div.moviedetails Release Date:
+					div.moviedetails Views:
+					div.moviedetails Category:
+						a(href="#") Action
+					div.moviedetails Date Added:
+				div.videocontainer
+					video(controls=true,width="640px")
+
