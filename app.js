@@ -10,10 +10,12 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var layout = require('./routes/layout');
 var category = require('./routes/addcategory')
+var expressvalidator = require('express-validator');
 
 var app = express();
 app.locals.script = "http://localhost:3000/javascripts/bootstrap.min.js";
 app.locals.style = "http://localhost:3000/stylesheets/bootstrap.css";
+app.locals.dbname = "webdb.sqlite3";
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,12 +29,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressvalidator());
 
 
 app.use('/', index);
 app.use('/users', users);
 app.use('/layout',layout);
-app.use('/addcategory',category);
+app.use('/category',category);
 
 
 // catch 404 and forward to error handler

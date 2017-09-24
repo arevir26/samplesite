@@ -1,10 +1,31 @@
 var express = require('express');
 
 var router = express.Router();
+var database = require('../SqliteDatabase');
+var dbname = "webdb.sqlite3";
 
-router.get('/',function(req,res,next){
-	req.arevir.page.categorylist = [];
+router.get('/',
+	database.connect(dbname),
+	database.getCategories,
+	function(req,res,next){
+	req.arevir.page.categorylist = req.sqlitedb.result;
 	res.render('categoryadd',req.arevir.page);
-})
+});
+
+router.post('/',
+	database.connect(dbname),
+	function(req,res,next){
+		req.sanitizeBody('category_name').trim();
+		req.checkBody('category_name','Empty').notEmpty();
+		if(!req.validationErrors()){
+			var addcat = database.addCategory(req.body.category_name);
+			addcat(req,res,next);
+		}else{next();};
+	},
+	function(req,res,next){
+
+		res.redirect('/category');
+	}
+	);
 
 module.exports = router;
