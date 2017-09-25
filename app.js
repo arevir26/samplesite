@@ -9,7 +9,7 @@ var initializer = require('./variableinitializer')
 var index = require('./routes/index');
 var users = require('./routes/users');
 var layout = require('./routes/layout');
-var category = require('./routes/addcategory')
+var category = require('./routes/category')
 var expressvalidator = require('express-validator');
 
 var app = express();

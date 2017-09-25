@@ -45,5 +45,16 @@ database.getCategories = function(req,res,next){
 	});
 }
 
+database.deleteCategory = function(category_id){
+	return function(req,res,next){
+		var sql = "DELETE FROM category_tb WHERE category_id="+category_id+";";
+		req.sqlitedb.run(sql,function(err){
+			console.log(sql);
+			console.log(err);
+			next();
+		});
+	}
+}
+
 
 module.exports = database;

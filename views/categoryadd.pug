@@ -10,6 +10,9 @@ block main
 						a(href="/category/rename/"+category.category_id) Rename
 						| &nbsp;|&nbsp;
 						a(href="/category/remove/"+category.category_id) Delete
+			else
+				li.category-item
+					span No Category to show, Please add one.
 			li
 				form(style="text-align:right",method="POST")
 					input(type="text", placeholder="New Category",name="category_name")

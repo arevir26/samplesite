@@ -28,4 +28,15 @@ router.post('/',
 	}
 	);
 
+router.get('/remove/:category_id',
+	database.connect(dbname),
+	function(req,res,next){
+		var removecat = database.deleteCategory(req.params.category_id);
+		removecat(req,res,next);
+	},
+	function(req,res){
+		res.redirect('/category');
+	}
+	);
+
 module.exports = router;
