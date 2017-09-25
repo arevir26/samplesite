@@ -2,33 +2,38 @@ extend layout
 
 block main
 	div.centered
-		table.centered(cellspacing="10em")
-			tr
-				th(colspan="2") Add Movie
-			tr
-				td Movie Name:
-				td
-					input(type="text",name="movie_name",placeholder="Movie Name")
-			tr
-				td Movie ID:
-				td
-					input(type="text",name="movie_id",placeholder="Movie ID")
-			tr
-				td Year Released:
-				td
-					input(type="text",name="movie_released",placeholder="Year")
-			tr
-				td(style="vertical-align:top") Categories:
-				td
-					input(type="checkbox",name="movie_category",value="catid")
-					| &nbsp;Action
-					br
-					input(type="checkbox",name="movie_category",value="catid")
-					| &nbsp;Adventure
-					br
-					input(type="checkbox",name="movie_category",value="catid")
-					| &nbsp;Anime
-					br
-			tr
-				td(colspan="2",align="right")
-					input(type="submit",name="add_movie",value="Submit")
+		form(method="POST",action="/moviepanel")
+			table.centered(cellspacing="10em")
+				tr
+					th(colspan="2") Add Movie
+				tr
+					td Movie Name:
+					td
+						input(type="text",name="movie_name",placeholder="Movie Name")
+				tr
+					td Movie ID:
+					td
+						input(type="text",name="movie_id",placeholder="Movie ID",disabled)
+				tr
+					td Year Released:
+					td
+						input(type="text",name="movie_released",placeholder="Year")
+				tr
+					td Movie URL:
+					td
+						input(type="text",name="movie_url",placeholder="URL")
+				tr
+					td(style="vertical-align:top") Categories:
+					td
+						each category in categorylist
+							input(type="checkbox",name="movie_category",value=category.category_id)
+							| &nbsp;#{category.category_name}
+							br
+				tr
+					td(style="vertical-align:top") Description:
+					td
+						textarea(name="description",placeholder="Add movie description here.")
+				tr
+					td(colspan="2",align="right")
+						input(type="submit",name="add_movie",value="Submit")
+		p= message

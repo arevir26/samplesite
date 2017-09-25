@@ -9,7 +9,8 @@ var initializer = require('./variableinitializer')
 var index = require('./routes/index');
 var users = require('./routes/users');
 var layout = require('./routes/layout');
-var category = require('./routes/category')
+var category = require('./routes/category');
+var moviepanel = require('./routes/moviepanel');
 var expressvalidator = require('express-validator');
 
 var app = express();
@@ -36,6 +37,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/layout',layout);
 app.use('/category',category);
+app.use('/moviepanel',moviepanel);
 
 
 // catch 404 and forward to error handler
