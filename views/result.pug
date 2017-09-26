@@ -1,0 +1,48 @@
+extend layout
+
+block main
+	div.movieinfo
+		h4 Categories
+		each category in categorylist
+			div.category-list
+				a(href="#")= category.category_name
+	div.videocontainer
+		div.sortbar
+			| Sort By:
+			a(href="#") Date Added&nbsp;|&nbsp;
+			a(href="#") Views
+		div.movieitem
+			a(href="#")
+				img(src="",width="150px",height="100px")
+				h4 Movie Title
+		div.movieitem
+			a(href="#")
+				img(src="",width="150px",height="100px")
+				h4 Movie Title
+		div.movieitem
+			a(href="#")
+				img(src="",width="150px",height="100px")
+				h4 Movie Title
+		div.movieitem
+			a(href="#")
+				img(src="",width="150px",height="100px")
+				h4 Movie Title
+		div.movieitem
+			a(href="#")
+				img(src="",width="150px",height="100px")
+				h4 Movie Title
+		div.movieitem
+			a(href="#")
+				img(src="",width="150px",height="100px")
+				h4 Movie Title
+
+		div.clearfloat
+		div.pagination
+			a(href="#") Previous
+			| |
+			a(href="#") 1
+			| |
+			a(href="#") 2
+			| |
+			a(href="#") next
+	div.clearfloat()

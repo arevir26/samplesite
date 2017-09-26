@@ -8,7 +8,7 @@ router.get('/',
 	database.connect(dbname),
 	database.getCategories,
 	function(req,res,next){
-	req.arevir.page.categorylist = req.sqlitedb.result;
+	req.arevir.page.categorylist = req.arevir.page.result.categorylist;
 	res.render('categoryadd',req.arevir.page);
 });
 
@@ -43,7 +43,7 @@ router.get('/rename/:category_id',
 	database.connect(dbname),
 	database.getCategories,
 	function(req,res,next){
-		req.arevir.page.categorylist = req.sqlitedb.result;
+		req.arevir.page.categorylist = req.arevir.page.result.categorylist;
 		req.arevir.page.renamecat_id = req.params.category_id;
 		req.arevir.page.renamecat_name = "";
 		req.arevir.page.categorylist.forEach((category)=>{

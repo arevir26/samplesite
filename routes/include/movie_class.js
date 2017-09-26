@@ -2,8 +2,8 @@ var moviefolder = "http://localhost:3000/movies/";
 
 class Movie{
 
-	constructor(name){
-		this.movie_name = name;
+	constructor(){
+		this.movie_name = "Unnamed";
 		this.released = 0;
 		this.url = "";
 		this.views = 0;
