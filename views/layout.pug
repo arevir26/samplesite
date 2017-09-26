@@ -1,7 +1,8 @@
 doctype html
 html
 	head
-		title= title
+		block title
+			title= title
 		link(rel="stylesheet", href="http://localhost:3000/style.css")
 	body
 		block header
@@ -15,7 +16,7 @@ html
 						li
 							a(href="#") Home
 						li
-							a(href="#") Movies
+							a(href="http://localhost:3000/movies") Movies
 		div.main
 			block main
 		div.footer

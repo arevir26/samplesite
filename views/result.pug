@@ -1,40 +1,28 @@
 extend layout
 
+block title
+	title= title
 block main
 	div.movieinfo
 		h4 Categories
+		div.category-list
+				a(href="http://localhost:3000/movies/" ) All Categories
 		each category in categorylist
 			div.category-list
-				a(href="#")= category.category_name
+				a(href="http://localhost:3000/movies/"+category.category_name+"/"+links.page+"/"+links.order)= category.category_name
 	div.videocontainer
 		div.sortbar
 			| Sort By:
 			a(href="#") Date Added&nbsp;|&nbsp;
 			a(href="#") Views
-		div.movieitem
-			a(href="#")
-				img(src="",width="150px",height="100px")
-				h4 Movie Title
-		div.movieitem
-			a(href="#")
-				img(src="",width="150px",height="100px")
-				h4 Movie Title
-		div.movieitem
-			a(href="#")
-				img(src="",width="150px",height="100px")
-				h4 Movie Title
-		div.movieitem
-			a(href="#")
-				img(src="",width="150px",height="100px")
-				h4 Movie Title
-		div.movieitem
-			a(href="#")
-				img(src="",width="150px",height="100px")
-				h4 Movie Title
-		div.movieitem
-			a(href="#")
-				img(src="",width="150px",height="100px")
-				h4 Movie Title
+
+		each movie in movielist
+			div.movieitem
+				a(href="#"+movie.movie_id)
+					img(src="http://localhost:3000/images/moviecon/"+movie.movie_id+".jpg",width="150px",height="100px")
+					h4= movie.movie_name
+		else
+			h4= "Nothing to Show."
 
 		div.clearfloat
 		div.pagination

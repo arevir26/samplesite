@@ -74,7 +74,6 @@ database.addMovie =  function(req,res,next){
 	req.sanitizeBody('movie_id').trim();
 	req.sanitizeBody('movie_released').trim();
 	req.sanitizeBody('movie_url').trim();
-	req.sanitizeBody('movie_category').trim();
 	req.sanitizeBody('description').trim();
 
 	//initialize movie object
@@ -111,6 +110,13 @@ database.addMovie =  function(req,res,next){
 					}
 					if(result){
 						req.arevir.dbresult.movieitem.movie_id = result.movie_id;
+						var lookupsql = "INSERT INTO movie_cat_lookup_tb(movie_id,category_id) VALUES($id,$cat_id)";
+						req.arevir.dbresult.movieitem.categories.forEach((category)=>{
+							req.sqlitedb.run(lookupsql,
+								{$id:req.arevir.dbresult.movieitem.movie_id,$cat_id:category},
+								(err)={if(err){req.arevir.errors.database="Unable to add to lookup table.";console.log(err)}});
+
+						});
 					}
 					next();
 				})
@@ -118,102 +124,115 @@ database.addMovie =  function(req,res,next){
 		}
 	);
 }
+database.getMoviesParams = function(req,res,next){
 
-database.getMovieId = function(req,res,next){
-		var sql = "SELECT * FROM movie_tb WHERE movie_name=$name";
-		req.sqlitedb.get(sql,{$name:req.arevir.movieitem.movie_name},function(err,result){
-			if(err){
-				req.arevir.movieitem.movie_id = 0;
-			}else{
-				if(!result){result = '';};
-				if(result.hasOwnProperty('movie_id')){
-					req.arevir.movieitem.movie_id = result.movie_id;
-				}else{
-					req.arevir.movie_item.movie_id = false;
-				}
-			}
-			next();
-		});
+	var param = {limit:9,offset:0,sort:{field:"movie_name",ascending:true},category:""};
+	param.limit = (req.params.limit)? parseInt(req.params.limit) : param.limit;
+	param.offset = (parseInt(req.params.page)-1)*parseInt(param.limit);
+	param.sort.field = (req.params.sort)? "movie_name":param.sort.field ;
+	param.category = req.params.category.toLowerCase();
+	switch(req.params.order.toLowerCase()){
+		case "asc":
+			param.sort.ascending = true;
+			break;
+		case "desc":
+			param.sort.ascending = false;
+			break;
+		default:
+			param.sort.ascending = true;
+	}
+	req.arevir.movieparams = param;
+	next();
+
 }
 
-database.addToLookUp = function(){
-	return function(req,res,next){
-		var sql = 'INSERT INTO movie_cat_lookup_tb(category_id,movie_id) VALUES($catid,$movid)';
-		if((typeof(req.arevir.movieitem.categories)!="undefined")&&req.arevir.movieitem.movie_id){
-			req.arevir.movieitem.categories.forEach(function(categoryid){
-				req.sqlitedb.run(sql,{$catid:categoryid,$movid:req.arevir.movieitem.movie_id});
-			});
+// link movies/category/limit/page/sort/order
+database.getMovies = function(req,res,next){
+//option
+//{limit:9,offset:0,sort:{field:"movie_name",ascending:true},category:''};
+	var options = req.arevir.movieparams;
+
+	var sql = "SELECT DISTINCT * FROM movie_tb INNER JOIN movie_cat_lookup_tb ON movie_cat_lookup_tb.movie_id=movie_tb.movie_id INNER JOIN category_tb ON category_tb.category_id=movie_cat_lookup_tb.category_id ";
+	//test sort parameter and set defaults
+	if(!options.hasOwnProperty('sort')){
+		options.sort = {field:"movie_name",order:true};
+	};
+	if(!options.sort.hasOwnProperty('field')){
+		options.sort.field = "movie_name";
+	}
+	options.sort.ascending = (options.sort.ascending) ? true:false;
+
+	//test limit
+	if(!options.hasOwnProperty('limit')){
+		options.limit = 9;
+	}
+	options.limit = (options.limit < 1) ? 9 : options.limit;
+
+	//test offset
+	if(!options.hasOwnProperty('offset')){
+		options.offset = 0;
+	}
+	options.offset = (options.offset < 0) ? 0 : options.offset;
+
+	//test category
+	if(!options.hasOwnProperty('category')){
+		options.category = '';
+	}
+
+	options.category = (options.category=='all') ?'':options.category;
+
+	//add filter to sql
+	if(options.category !== ''){
+		sql += `WHERE category_tb.category_name LIKE '${options.category}' `;
+	}
+
+	//if All movies should be shown
+	if(options.category == ''){
+		sql = "SELECT * from movie_tb ";
+	}
+
+	//
+	switch(options.sort.field){
+		case "date_added":
+			sql += 'ORDER BY date_added ';
+			break;
+		case "views":
+			sql += 'ORDER BY views ';
+			break;
+		case "released":
+			sql += 'ORDER BY released ';
+			break;
+		default:
+			sql += 'ORDER BY movie_name ';
+			break;
+	}
+
+	if(options.sort.ascending){
+		sql += 'ASC ';
+	}else{sql+= 'DESC '};
+
+	sql += `LIMIT ${options.limit} `;
+	sql += `OFFSET ${options.offset}`;
+
+
+	req.sqlitedb.all(sql,function(err,result){
+		if(err){
+			req.arevir.dbresult.movies = [];
+			req.arevir.errors.database = err.message;
+		}else{
+			req.arevir.dbresult.movies = result;
 		}
 		next();
-	}
+	});
 }
-// link movies/category/limit/page/sort/order
-database.getMovies = function(options={limit:9,offset:0,sort:{field:"movie_name",ascending:true},category:''}){
-	return function(req,res,next){
-		var sql = "SELECT * FROM movie_tb LEFT JOIN movie_cat_lookup_tb ON movie_cat_lookup_tb.movie_id=movie_tb.movie_id LEFT JOIN category_tb ON movie_cat_lookup_tb.category_id=category_tb.category_id ";
-		
-		//test sort parameter and set defaults
-		if(!options.hasOwnProperty('sort')){
-			options.sort = {field:"movie_name",order:true};
-		};
-		if(!options.sort.hasOwnProperty('field')){
-			options.sort.field = "movie_name";
-		}
-		options.sort.ascending = (options.sort.ascending) ?true:false;
-
-		//test limit
-		if(!options.hasOwnProperty('limit')){
-			options.limit = 9;
-		}
-		options.limit = (options.limit < 1) ? 9 : options.limit;
-
-		//test offset
-		if(!options.hasOwnProperty('offset')){
-			options.offset = 0;
-		}
-		options.offset = (options.offset < 0) ? 0 : options.offset;
-
-		//test category
-		if(!options.hasOwnProperty('category')){
-			options.category = '';
-		}
-
-		//add filter to sql
-		if(options.category !== ''){
-			sql += `WHERE category_name='${options.category}' `;
-		}
-
-		//
-		switch(options.sort.field){
-			case "date_added":
-				sql += 'ORDER BY date_added ';
-				break;
-			case "views":
-				sql += 'ORDER BY views';
-				break;
-			case "released":
-				sql += 'ORDER BY released';
-				break;
-			default:
-				sql += 'ORDER BY movie_name';
-				break;
-		}
-
-		req.sqlitedb.all(sql,function(err,result){
-			console.log("Error: "+err);
-			console.log(result);
-		});
-		next()
-	}
-}
-
 
 
 database.test = function(req,res,next){
+	var testing ="SELECT * FROM movie_tb LEFT JOIN movie_cat_lookup_tb ON movie_cat_lookup_tb.movie_id=movie_tb.movie_id JOIN category_tb ON category_tb.category_id=movie_cat_lookup_tb.category_id WHERE category_tb.category_name LIKE 'action' ORDER BY movie_name ASC LIMIT 5 OFFSET 0";
 	var sql = 'SELECT * FROM movie_tb LEFT JOIN movie_cat_lookup_tb ON movie_cat_lookup_tb.movie_id=movie_tb.movie_id INNER JOIN category_tb ON category_tb.category_id=movie_cat_lookup_tb.category_id';
-	req.sqlitedb.all(sql,function(err,result){
-		console.log(result);
-		next();
+	req.sqlitedb.all(testing,function(err,result){
+		res.send(result);
+		res.end();
 	})
 }
 

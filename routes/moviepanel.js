@@ -11,7 +11,7 @@ var dbname = "webdb.sqlite3";
 router.get('/',
 	database.connect(dbname),
 	database.getCategories,
-	database.test,
+	//database.test,
 	function(req,res,next){
 		req.arevir.page.message = (req.query.message)?req.query.message:"";
 		req.arevir.page.categorylist = req.arevir.page.result.categorylist;
@@ -27,6 +27,11 @@ router.post('/',
 		res.redirect('/moviepanel');
 	}
 );
+
+router.get('/test',
+	database.connect(dbname),
+	database.test
+)
 
 
 module.exports = router;
