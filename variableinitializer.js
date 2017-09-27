@@ -6,6 +6,7 @@ var variable_initializer = function(req,res,next){
 	req.arevir.errors = {};
 	req.arevir.success = {};
 	req.arevir.dbresult = {};
+	req.arevir.page.host = "http://localhost:3000";
 	next();
 }
 

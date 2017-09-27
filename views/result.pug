@@ -6,15 +6,13 @@ block main
 	div.movieinfo
 		h4 Categories
 		div.category-list
-				a(href="http://localhost:3000/movies/" ) All Categories
+				a(href=host+"/movies/all/1/"+order ) All Categories
 		each category in categorylist
 			div.category-list
 				a(href="http://localhost:3000/movies/"+category.category_name+"/"+links.page+"/"+links.order)= category.category_name
 	div.videocontainer
 		div.sortbar
-			| Sort By:
-			a(href="#") Date Added&nbsp;|&nbsp;
-			a(href="#") Views
+			| Showing #{movielist.length} out of #{totalresult} movies
 
 		each movie in movielist
 			div.movieitem
@@ -26,11 +24,12 @@ block main
 
 		div.clearfloat
 		div.pagination
-			a(href="#") Previous
-			| |
-			a(href="#") 1
-			| |
-			a(href="#") 2
-			| |
-			a(href="#") next
+			- var last = 0
+			each pagelink in pagination
+				- last++
+				a(href=pagelink.link)= pagelink.pagename
+				unless last==pagination.length
+					| |
+			else
+				| ||
 	div.clearfloat()

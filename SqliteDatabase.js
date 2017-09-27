@@ -152,7 +152,11 @@ database.getMovies = function(req,res,next){
 //{limit:9,offset:0,sort:{field:"movie_name",ascending:true},category:''};
 	var options = req.arevir.movieparams;
 
+	//sql to get the results to be shown
 	var sql = "SELECT DISTINCT * FROM movie_tb INNER JOIN movie_cat_lookup_tb ON movie_cat_lookup_tb.movie_id=movie_tb.movie_id INNER JOIN category_tb ON category_tb.category_id=movie_cat_lookup_tb.category_id ";
+	//sql to get total result without limit
+	var sqlcount = "SELECT count(*) AS total_result FROM movie_tb INNER JOIN movie_cat_lookup_tb ON movie_cat_lookup_tb.movie_id=movie_tb.movie_id INNER JOIN category_tb ON category_tb.category_id=movie_cat_lookup_tb.category_id ";
+
 	//test sort parameter and set defaults
 	if(!options.hasOwnProperty('sort')){
 		options.sort = {field:"movie_name",order:true};
@@ -184,11 +188,21 @@ database.getMovies = function(req,res,next){
 	//add filter to sql
 	if(options.category !== ''){
 		sql += `WHERE category_tb.category_name LIKE '${options.category}' `;
+		sqlcount += `WHERE category_tb.category_name LIKE '${options.category}' `;
 	}
+	
+/// TODO - ADD TO SEARCH PAGE
+//	if(options.category == 'search'){
+//		sql += `WHERE movie_tb.movie_name LIKE '${options.category}' `;
+//		sqlcount += `WHERE movie_tb.movie_name LIKE '${options.category}' `;
+//	}
+
+
 
 	//if All movies should be shown
 	if(options.category == ''){
 		sql = "SELECT * from movie_tb ";
+		sqlcount = "SELECT COUNT(*) as total_result from movie_tb ";
 	}
 
 	//
@@ -207,6 +221,9 @@ database.getMovies = function(req,res,next){
 			break;
 	}
 
+	//save queries
+	req.arevir.lastquery = sql;
+
 	if(options.sort.ascending){
 		sql += 'ASC ';
 	}else{sql+= 'DESC '};
@@ -214,15 +231,25 @@ database.getMovies = function(req,res,next){
 	sql += `LIMIT ${options.limit} `;
 	sql += `OFFSET ${options.offset}`;
 
+	req.sqlitedb.serialize(function(){
+		req.sqlitedb.get(sqlcount,function(err,res){
+			if(err){
+				req.arevir.errors.database = err.message;
+			}else{
+				req.arevir.dbresult.totalmovies = res.total_result;
+			}
+		});
+		req.sqlitedb.all(sql,function(err,result){
+			if(err){
+				req.arevir.dbresult.movies = [];
+				req.arevir.errors.database = err.message;
+			}else{
+				req.arevir.dbresult.movies = result;
+			}
+			next();
+		});
 
-	req.sqlitedb.all(sql,function(err,result){
-		if(err){
-			req.arevir.dbresult.movies = [];
-			req.arevir.errors.database = err.message;
-		}else{
-			req.arevir.dbresult.movies = result;
-		}
-		next();
+
 	});
 }
 
