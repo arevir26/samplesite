@@ -59,7 +59,6 @@ database.getCategories = function(req,res,next){
 			req.arevir.page.result.categorylist = [];
 		}else{
 			req.arevir.page.result.categorylist = res;
-			console.log(res);
 		}
 		next();
 	});
@@ -73,7 +72,6 @@ database.getCategoriesWithCount = function(req,res,next){
 			req.arevir.page.result.categorylist = [];
 		}else{
 			req.arevir.page.result.categorylist = res;
-			console.log(res);
 		}
 		next();
 	});

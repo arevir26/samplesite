@@ -9,7 +9,7 @@ var default_path = "all/1/asc";
 var pagination = function(req,res,next){
 	//var totalpages = Math.floor(req.arevir.dbresult.totalmovies/req.arevir.dbresult.movies.length);
 	
-	var total = req.arevir.dbresult.movies.length;
+	var total = parseInt(req.arevir.dbresult.totalmovies);
 	var limit = 9;
 	var pagination = [];
 	var pagelink = function(name,pagenum){
@@ -17,10 +17,9 @@ var pagination = function(req,res,next){
 		return {pagename:name,link:newlink};
 	};
 	var pagenum = parseInt(req.params.page);
-	var totalpages = 0;
-	//dummy
-	if(total!=0){
-		totalpages = Math.floor(total/limit);
+	var totalpages = Math.floor(total/limit);;
+	if(total>9){
+		console.log("It sucks");
 		if((total%limit)>0){
 			totalpages++;
 		};
@@ -28,17 +27,17 @@ var pagination = function(req,res,next){
 		var currentpage = parseInt(req.params.page);
 
 		//add 2 page before current page
-		if((pagenum-1)>0 && pagenum<totalpages){
-			pagination.push(pagelink("Previous", pagenum-2));
+		if((pagenum-1)>0 && pagenum<=totalpages){
+			pagination.push(pagelink("Previous", pagenum-1));
 		}
 
 		//add 2 page before current page
-		if((pagenum-2)>0 && pagenum<totalpages){
+		if((pagenum-2)>0 && pagenum<=totalpages){
 			pagination.push(pagelink(`${pagenum-2}`,pagenum-2));
 		}
 
 		//add 1 page before current page
-		if((pagenum-1)>0 && pagenum<totalpages){
+		if((pagenum-1)>0 && pagenum<=totalpages){
 			pagination.push(pagelink(`${pagenum-1}`,pagenum-1));
 		}
 

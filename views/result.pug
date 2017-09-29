@@ -1,7 +1,7 @@
 extend layout
 
 block title
-	title= title
+	title List of #{page_category} Movies
 block main
 	div.movieinfo
 		h4 Categories
@@ -9,7 +9,7 @@ block main
 				a(href=host+"/movies/all/1/"+order ) All Categories
 		each category in categorylist
 			div.category-list
-				a(href="http://localhost:3000/movies/"+category.category_name+"/"+links.page+"/"+links.order)
+				a(href=host+"/movies/"+category.category_name+"/1/"+links.order)
 					| #{category.category_name} (#{category.category_count})
 	div.videocontainer
 		div.sortbar
@@ -19,7 +19,7 @@ block main
 			- clearfloat++
 			div.movieitem
 				a(href=host+"/watch/"+movie.movie_id)
-					img(src="http://localhost:3000/images/moviecon/"+movie.movie_name+".jpg",width="100px",height="150px")
+					img(src=host+"/images/moviecon/"+movie.movie_name+".jpg",width="100px",height="150px")
 					h4= movie.movie_name
 					if remove_enabled
 						div
@@ -38,5 +38,5 @@ block main
 				unless last==pagination.length
 					| |
 			else
-				| ||
+				| That's All Folks :-) New movies will be added soon.
 	div.clearfloat()

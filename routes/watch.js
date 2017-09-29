@@ -1,4 +1,5 @@
 var express = require('express');
+var fs = require('fs');
 
 var router = express.Router();
 
@@ -19,6 +20,14 @@ router.get('/:movieid',
 	database.getMovie,
 	function(req,res,next) {
 		req.arevir.page.movie = req.arevir.dbresult.movie;
+		if(true){
+			var subtitle = req.arevir.page.movie.url;
+			var extindex = subtitle.lastIndexOf(".");
+			subtitle = subtitle.slice(0,extindex);
+			subtitle+=".vtt";
+			req.arevir.page.movie.subtitle = subtitle;
+
+		}
 		res.render('watch',req.arevir.page);
 	}
 

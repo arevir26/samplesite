@@ -1,5 +1,8 @@
 extend layout
 
+append footer
+	script(src=host+"/javascripts/videoscript.js",type="text/javascript")
+
 block main
 	- var movieinfo = movie;
 	if movie
@@ -18,7 +21,7 @@ block main
 						a(href=host+"/movies/"+category.category_name+"/1/asc") #{category.category_name}
 				else
 					| No Category
-			if modify_enabled
+			if false
 				h4 Modify Movie
 				form(action=host+"/moviepanel/modify/"+movieinfo.movie_id,method="POST")
 					div.moviedetails
@@ -35,8 +38,10 @@ block main
 					div.moviedetails
 						input(type="submit",value="Edit")
 		div.videocontainer
-			video(controls=true,width="640px")
+			video(controls=true,width="640px",controlsList="nodownload",id="video",onClick="Play()")
 				source(src=host+"/"+movieinfo.url)
+				if movie.subtitle
+					track(src=host+"/"+movie.subtitle,srclang="en",kind="subtitles",label="English",default)
 			div(style="text-align:left;background:white;margin-left:1em;padding:1em")
 				h4 Description
 				p(style="text-indent:1em;margin:2em;text-align:justify") #{movieinfo.description}
@@ -53,6 +58,7 @@ block main
 				p Error: Page Not Found
 
 	div.clearfloat
+
 
 
 
