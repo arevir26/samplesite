@@ -79,7 +79,7 @@ router.get('/',
 router.get('/:category/:page/:order',
 	database.connect(dbname),
 	database.getMoviesParams,
-	database.getCategories,
+	database.getCategoriesWithCount,
 	database.getMovies,
 	pagination,
 	(req,res,next)=>{

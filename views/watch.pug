@@ -1,35 +1,61 @@
-doctype html
-html
-	head
-		title= title
-		link(rel="stylesheet", href="../style.css")
-	body
-		block header
-			div.head
-				h2 Movie Gallery
-				nav
-					form.search-form
-						input(type="text",placeholder="Search",name="search")
-						input(type="submit",value="Go")
-					ul
-						li
-							a(href="#") Home
-						li
-							a(href="#") Movies
-		div.main
-			block main
-				div.movieinfo
-					h4 Movie Title
-					div.moviedetails Release Date:
-					div.moviedetails Views:
-					div.moviedetails Category:
-						a(href="#") Action
-					div.moviedetails Date Added:
-				div.videocontainer
-					video(controls=true,width="640px")
-						source(src="../movies/3 Idiots (2010) BRRip/3 Idiots (00) Sample.mkv")
-				div.clearfloat
-		div.footer
-			block footer
-				| arevir26&copy;2017
+extend layout
+
+block main
+	- var movieinfo = movie;
+	if movie
+		div.movieinfo
+			h4= movieinfo.movie_name
+			div.moviedetails Release Date: #{movieinfo.released}
+			div.moviedetails Views: #{movieinfo.views+1}
+			- var day = new Date(movieinfo.date_added)
+			- var y = day.getFullYear()
+			- var d = day.getDate()
+			- var m = day.getMonth()+1;
+			div.moviedetails Date Added: #{m}/#{d}/#{y}
+			div.moviedetails Category:&nbsp;
+				each category in movieinfo.categories
+					p(style="text-indent: 2em; spacing:1em")
+						a(href=host+"/movies/"+category.category_name+"/1/asc") #{category.category_name}
+				else
+					| No Category
+			if modify_enabled
+				h4 Modify Movie
+				form(action=host+"/moviepanel/modify/"+movieinfo.movie_id,method="POST")
+					div.moviedetails
+						| Select Field: 
+						select(name="fieldname")
+							option(value="movie_name") Movie Name
+							option(value="url") URL
+							option(value="description",selected) Description
+							option(value="views") Views
+							option(value="released") Year
+					div.moviedetails
+						| New Value: 
+						textarea(name="newvalue",style="vertical-align:top")
+					div.moviedetails
+						input(type="submit",value="Edit")
+		div.videocontainer
+			video(controls=true,width="640px")
+				source(src=host+"/"+movieinfo.url)
+			div(style="text-align:left;background:white;margin-left:1em;padding:1em")
+				h4 Description
+				p(style="text-indent:1em;margin:2em;text-align:justify") #{movieinfo.description}
+	else
+		div.movieinfo
+			h4 File not found
+			div.moviedetails Release Date: 
+			div.moviedetails Views: 
+			div.moviedetails Category:&nbsp;
+				| No Category
+			div.moviedetails Date Added: Not Available
+		div.videocontainer
+			div
+				p Error: Page Not Found
+
+	div.clearfloat
+
+
+
+
+
 

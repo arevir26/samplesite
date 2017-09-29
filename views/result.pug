@@ -9,16 +9,23 @@ block main
 				a(href=host+"/movies/all/1/"+order ) All Categories
 		each category in categorylist
 			div.category-list
-				a(href="http://localhost:3000/movies/"+category.category_name+"/"+links.page+"/"+links.order)= category.category_name
+				a(href="http://localhost:3000/movies/"+category.category_name+"/"+links.page+"/"+links.order)
+					| #{category.category_name} (#{category.category_count})
 	div.videocontainer
 		div.sortbar
 			| Showing #{movielist.length} out of #{totalresult} movies
-
+		- var clearfloat = 0
 		each movie in movielist
+			- clearfloat++
 			div.movieitem
-				a(href="#"+movie.movie_id)
-					img(src="http://localhost:3000/images/moviecon/"+movie.movie_id+".jpg",width="150px",height="100px")
+				a(href=host+"/watch/"+movie.movie_id)
+					img(src="http://localhost:3000/images/moviecon/"+movie.movie_name+".jpg",width="100px",height="150px")
 					h4= movie.movie_name
+					if remove_enabled
+						div
+							a(href=host+"/moviepanel/remove/"+movie.movie_id) Remove
+			unless clearfloat%3
+				div.clearfloat
 		else
 			h4= "Nothing to Show."
 

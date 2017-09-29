@@ -28,9 +28,31 @@ router.post('/',
 	}
 );
 
+router.get('/remove/:movieid',
+	database.connect(dbname),
+	database.removeMovie,
+	function(req,res,next){
+		console.log(req.params.movieid);
+		var backurl = req.header('Referer');
+		res.redirect(backurl);
+	}
+	);
+
+router.post('/modify/:movieid',database.connect(dbname),
+	database.modifyMovie,
+	function(req,res,next){
+		console.log(req.body);
+		var backurl = req.header('Referer');
+		res.redirect(backurl);
+	});
+
 router.get('/test',
 	database.connect(dbname),
-	database.test
+	database.modifyMovie,
+	function(req,res,next){
+		var backurl = req.header('Referer');
+		console.log(error);
+	}
 )
 
 

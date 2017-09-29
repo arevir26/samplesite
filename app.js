@@ -13,7 +13,7 @@ var category = require('./routes/category');
 var moviepanel = require('./routes/moviepanel');
 var resultpage =require('./routes/results');
 var expressvalidator = require('express-validator');
-
+var watch =require('./routes/watch');
 
 var app = express();
 app.locals.script = "http://localhost:3000/javascripts/bootstrap.min.js";
@@ -41,6 +41,7 @@ app.use('/layout',layout);
 app.use('/category',category);
 app.use('/moviepanel',moviepanel);
 app.use('/movies',resultpage);
+app.use('/watch',watch);
 
 
 // catch 404 and forward to error handler
