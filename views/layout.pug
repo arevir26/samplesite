@@ -14,9 +14,19 @@ html
 						input(type="submit",value="Go")
 					ul
 						li
-							a(href="#") Home
+							a(href=host) Home
 						li
 							a(href=host+"/movies") Movies
+						unless remove_enabled
+							li
+								a(href=host+"/admin/login") Admin Login
+						if remove_enabled
+							li
+								a(href=host+"/moviepanel") Add Movie
+							li
+								a(href=host+"/category") Add Category
+							li
+								a(href=host+"/admin/logout") Logout
 		div.main
 			block main
 		div.footer

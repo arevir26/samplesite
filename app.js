@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+
 
 var initializer = require('./variableinitializer')
 var index = require('./routes/index');
@@ -14,6 +16,8 @@ var moviepanel = require('./routes/moviepanel');
 var resultpage =require('./routes/results');
 var expressvalidator = require('express-validator');
 var watch =require('./routes/watch');
+var login = require('./routes/login');
+var checkSession = require('./routes/include/checkSession');
 
 var app = express();
 app.locals.script = "http://localhost:3000/javascripts/bootstrap.min.js";
@@ -33,8 +37,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressvalidator());
+app.use(session({secret:"Ryan Joseph",resave:false,saveUninitialized:false}));
 
 
+app.use(checkSession.isLoggedIn);
 app.use('/', index);
 app.use('/users', users);
 app.use('/layout',layout);
@@ -42,6 +48,7 @@ app.use('/category',category);
 app.use('/moviepanel',moviepanel);
 app.use('/movies',resultpage);
 app.use('/watch',watch);
+app.use('/admin',login);
 
 
 // catch 404 and forward to error handler

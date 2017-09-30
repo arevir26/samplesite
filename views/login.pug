@@ -1,0 +1,21 @@
+extend layout
+
+block main
+	div.centered
+		form(method="POST",action=host+"/admin/login")
+			table(width="50%",style="background:white",cellpadding="5em").centered
+				tr
+					td(colspan="2")
+						h4(style="text-align:center") Admin Login
+				tr
+					td(style="text-align: right") Username:
+					td
+						input(type="text",placeholder="Username",name="username")
+				tr
+					td(style="text-align: right") Password:
+					td
+						input(type="password",placeholder="Password",name="password")
+				tr
+					td
+					td
+						input(type="submit",value="Login",style="float:left")

@@ -21,7 +21,7 @@ block main
 						a(href=host+"/movies/"+category.category_name+"/1/asc") #{category.category_name}
 				else
 					| No Category
-			if false
+			if modify_enabled
 				h4 Modify Movie
 				form(action=host+"/moviepanel/modify/"+movieinfo.movie_id,method="POST")
 					div.moviedetails

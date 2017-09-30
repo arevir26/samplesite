@@ -5,7 +5,7 @@ var router = express.Router();
 
 var database = require('../SqliteDatabase');
 var dbname = "webdb.sqlite3";
-
+var checkSession = require('./include/checkSession');
 router.get('/',
 
 	function(req,res,next) {
@@ -17,6 +17,7 @@ router.get('/',
 
 router.get('/:movieid',
 	database.connect(dbname),
+	checkSession.isLoggedIn,
 	database.getMovie,
 	function(req,res,next) {
 		req.arevir.page.movie = req.arevir.dbresult.movie;

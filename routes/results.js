@@ -4,7 +4,7 @@ var router = express.Router();
 var database = require('../SqliteDatabase');
 var dbname = "webdb.sqlite3";
 var default_path = "all/1/asc";
-
+var checkSession = require('./include/checkSession');
 
 var pagination = function(req,res,next){
 	//var totalpages = Math.floor(req.arevir.dbresult.totalmovies/req.arevir.dbresult.movies.length);
@@ -19,7 +19,6 @@ var pagination = function(req,res,next){
 	var pagenum = parseInt(req.params.page);
 	var totalpages = Math.floor(total/limit);;
 	if(total>9){
-		console.log("It sucks");
 		if((total%limit)>0){
 			totalpages++;
 		};
@@ -77,6 +76,7 @@ router.get('/',
 // todo make sure page is a number only
 router.get('/:category/:page/:order',
 	database.connect(dbname),
+	checkSession.isLoggedIn,
 	database.getMoviesParams,
 	database.getCategoriesWithCount,
 	database.getMovies,

@@ -4,11 +4,13 @@ var router = express.Router();
 
 var database = require('../SqliteDatabase');
 var movieclass = require('./include/movie_class');
+var checkSession = require('./include/checkSession');
 
 var dbname = "webdb.sqlite3";
 
 
 router.get('/',
+	checkSession.restricted,
 	database.connect(dbname),
 	database.getCategories,
 	//database.test,
@@ -20,6 +22,7 @@ router.get('/',
 );
 
 router.post('/',
+	checkSession.restricted,
 	database.connect(dbname),
 	database.addMovie,
 	function(req,res,next){
@@ -29,16 +32,18 @@ router.post('/',
 );
 
 router.get('/remove/:movieid',
+	checkSession.restricted,
 	database.connect(dbname),
 	database.removeMovie,
 	function(req,res,next){
-		console.log(req.params.movieid);
 		var backurl = req.header('Referer');
 		res.redirect(backurl);
 	}
 	);
 
-router.post('/modify/:movieid',database.connect(dbname),
+router.post('/modify/:movieid',
+	checkSession.restricted,
+	database.connect(dbname),
 	database.modifyMovie,
 	function(req,res,next){
 		console.log(req.body);

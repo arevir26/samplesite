@@ -3,8 +3,10 @@ var express = require('express');
 var router = express.Router();
 var database = require('../SqliteDatabase');
 var dbname = "webdb.sqlite3";
+var checkSession = require('./include/checkSession');
 
 router.get('/',
+	checkSession.restricted,
 	database.connect(dbname),
 	database.getCategories,
 	function(req,res,next){
@@ -14,6 +16,7 @@ router.get('/',
 
 router.post('/',
 	database.connect(dbname),
+	checkSession.restricted,
 	function(req,res,next){
 		req.sanitizeBody('category_name').trim();
 		req.checkBody('category_name','Empty').notEmpty();
@@ -29,6 +32,7 @@ router.post('/',
 	);
 
 router.get('/remove/:category_id',
+	checkSession.restricted,
 	database.connect(dbname),
 	function(req,res,next){
 		var removecat = database.deleteCategory(req.params.category_id);
@@ -40,6 +44,7 @@ router.get('/remove/:category_id',
 	);
 
 router.get('/rename/:category_id',
+	checkSession.restricted,
 	database.connect(dbname),
 	database.getCategories,
 	function(req,res,next){
@@ -56,6 +61,7 @@ router.get('/rename/:category_id',
 );
 
 router.post('/rename/:category_id',
+	checkSession.restricted,
 	database.connect(dbname),
 	function(req,res,next){
 		req.sanitizeBody('category_name').trim();
