@@ -25,7 +25,7 @@ var pagination = function(req,res,next){
 		
 		var currentpage = parseInt(req.params.page);
 
-		//add 2 page before current page
+		//add previous page
 		if((pagenum-1)>0 && pagenum<=totalpages){
 			pagination.push(pagelink("Previous", pagenum-1));
 		}
@@ -47,12 +47,12 @@ var pagination = function(req,res,next){
 		
 	
 		//add  1 page ahead current page
-		if((pagenum+1)<totalpages){
+		if((pagenum+1)<=totalpages){
 			pagination.push(pagelink(`${pagenum+1}`,pagenum+1));
 		}
 
 		//add 2 page ahead current page
-		if((pagenum+2)<totalpages){
+		if((pagenum+2)<=totalpages){
 			pagination.push(pagelink(`${pagenum+2}`,pagenum+2));
 		}
 
