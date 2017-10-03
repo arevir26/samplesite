@@ -9,7 +9,7 @@ html
 			div.head
 				h2 Movie Gallery
 				nav
-					form.search-form
+					form.search-form(action=host+"/movies/search/1/asc",method="GET")
 						input(type="text",placeholder="Search",name="search")
 						input(type="submit",value="Go")
 					ul

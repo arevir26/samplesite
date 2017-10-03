@@ -162,6 +162,7 @@ database.getMoviesParams = function(req,res,next){
 	param.offset = (parseInt(req.params.page)-1)*parseInt(param.limit);
 	param.sort.field = (req.params.sort)? "movie_name":param.sort.field ;
 	param.category = req.params.category.toLowerCase();
+	param.search = (req.query.search)?req.query.search : "";
 	switch(req.params.order.toLowerCase()){
 		case "asc":
 			param.sort.ascending = true;
@@ -173,6 +174,7 @@ database.getMoviesParams = function(req,res,next){
 			param.sort.ascending = true;
 	}
 	req.arevir.movieparams = param;
+	req.arevir.page.query = param.search;
 	next();
 
 }
@@ -217,10 +219,18 @@ database.getMovies = function(req,res,next){
 	options.category = (options.category=='all') ?'':options.category;
 
 	//add filter to sql
-	if(options.category !== ''){
+	if(options.category !== ''&&options.category !=='search'){
 		sql += `WHERE category_tb.category_name LIKE '${options.category}' `;
 		sqlcount += `WHERE category_tb.category_name LIKE '${options.category}' `;
 	}
+
+	if(options.category==='search'){
+		sql = "SELECT DISTINCT * FROM movie_tb ";
+		sqlcount = "SELECT count(*) AS total_result FROM movie_tb ";
+		sql += `WHERE movie_tb.movie_name LIKE '%${options.search}%' `;
+		sqlcount += `WHERE movie_tb.movie_name LIKE '%${options.search}%' `;
+	}
+
 	
 /// TODO - ADD TO SEARCH PAGE
 //	if(options.category == 'search'){

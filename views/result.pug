@@ -34,7 +34,10 @@ block main
 			- var last = 0
 			each pagelink in pagination
 				- last++
-				a(href=pagelink.link)= pagelink.pagename
+				if query.length
+					a(href=pagelink.link+"?search="+query)= pagelink.pagename
+				else
+					a(href=pagelink.link)= pagelink.pagename
 				unless last==pagination.length
 					| |
 			else
