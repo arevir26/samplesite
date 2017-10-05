@@ -3,33 +3,29 @@ html
 	head
 		block title
 			title= title
-		link(rel="stylesheet", href=host+"/style.css")
+		link(rel="stylesheet", href=host+"/style.cs")
+		link(rel="stylesheet", href=host+"/stylesheets/bootstrap.min.css")
 	body
 		block header
-			div.head
-				h2 Movie Gallery
-				nav
-					form.search-form(action=host+"/movies/search/1/asc",method="GET")
-						input(type="text",placeholder="Search",name="search")
-						input(type="submit",value="Go")
-					ul
-						li
-							a(href=host) Home
-						li
-							a(href=host+"/movies") Movies
-						unless remove_enabled
-							li
-								a(href=host+"/admin/login") Admin Login
-						if remove_enabled
-							li
-								a(href=host+"/moviepanel") Add Movie
-							li
-								a(href=host+"/category") Add Category
-							li
-								a(href=host+"/admin/logout") Logout
+			div.container.mb-3
+				h2.text-center Movie Gallery
+				div.row.bg-primary
+					nav.col.col-md-8
+						div.btn-group
+							a(href=host+"/movies").text-white.btn.btn-primary Movies
+							unless remove_enabled
+								a(href=host+"/admin/login").text-white.btn.btn-primary Admin Login
+							if remove_enabled
+								a(href=host+"/moviepanel").text-white.btn.btn-primary Add Movie
+								a(href=host+"/category").text-white.btn.btn-primary Add Category
+								a(href=host+"/admin/logout").text-white.btn.btn-primary Logout
+					div.col.col-md-4.text-right
+						form.py-1.search-form(action=host+"/movies/search/1/asc",method="GET")
+							input(type="text",placeholder="Search",name="search")
+							input(type="submit",value="Go")
 		div.main
 			block main
-		div.footer
+		div.container.bg-primary.text-center.py-4.mt-4
 			block footer
-				| arevir26&copy;2017
+				span.text-white arevir26&copy;2017
 

@@ -5,59 +5,62 @@ append footer
 
 block main
 	- var movieinfo = movie;
-	if movie
-		div.movieinfo
-			h4= movieinfo.movie_name
-			div.moviedetails Release Date: #{movieinfo.released}
-			div.moviedetails Views: #{movieinfo.views+1}
-			- var day = new Date(movieinfo.date_added)
-			- var y = day.getFullYear()
-			- var d = day.getDate()
-			- var m = day.getMonth()+1;
-			div.moviedetails Date Added: #{m}/#{d}/#{y}
-			div.moviedetails Category:&nbsp;
-				each category in movieinfo.categories
-					p(style="text-indent: 2em; spacing:1em")
-						a(href=host+"/movies/"+category.category_name+"/1/asc") #{category.category_name}
-				else
-					| No Category
-			if modify_enabled
-				h4 Modify Movie
-				form(action=host+"/moviepanel/modify/"+movieinfo.movie_id,method="POST")
-					div.moviedetails
-						| Select Field: 
-						select(name="fieldname")
-							option(value="movie_name") Movie Name
-							option(value="url") URL
-							option(value="description",selected) Description
-							option(value="views") Views
-							option(value="released") Year
-					div.moviedetails
-						| New Value: 
-						textarea(name="newvalue",style="vertical-align:top")
-					div.moviedetails
-						input(type="submit",value="Edit")
-		div.videocontainer
-			video(controls=true,width="640px",controlsList="nodownload",id="video",onClick="Play()")
-				source(src=host+"/"+movieinfo.url)
-				if movie.subtitle
-					track(src=host+"/"+movie.subtitle,srclang="en",kind="subtitles",label="English",default)
-			div(style="text-align:left;background:white;margin-left:1em;padding:1em")
-				h4 Description
-				p(style="text-indent:1em;margin:2em;text-align:justify") #{movieinfo.description}
-	else
-		div.movieinfo
-			h4 File not found
-			div.moviedetails Release Date: 
-			div.moviedetails Views: 
-			div.moviedetails Category:&nbsp;
-				| No Category
-			div.moviedetails Date Added: Not Available
-		div.videocontainer
-			div
-				p Error: Page Not Found
+	div.container
+		div.row
+			if movie
+				div.list-group.col.col-12.col-sm-3.card.pr-0
+					h5.list-group-item.active.mb-md-2= movieinfo.movie_name
+					div.pl-2 Release Date: #{movieinfo.released}
+					div.pl-2 Views: #{movieinfo.views+1}
+					- var day = new Date(movieinfo.date_added)
+					- var y = day.getFullYear()
+					- var d = day.getDate()
+					- var m = day.getMonth()+1;
+					div.pl-2 Date Added: #{m}/#{d}/#{y}
+					div
+						span.pl-2 Category:&nbsp;
+						div.breadcrumb
+							each category in movieinfo.categories
+								a.breadcrumb-item(href=host+"/movies/"+category.category_name+"/1/asc") #{category.category_name}
+							else
+								| No Category
+					if modify_enabled
+						h5.list-group-item.active.mb-md-2 Modify Movie
+						form(action=host+"/moviepanel/modify/"+movieinfo.movie_id,method="POST")
+							div.moviedetails
+								| Select Field: 
+								select(name="fieldname")
+									option(value="movie_name") Movie Name
+									option(value="url") URL
+									option(value="description",selected) Description
+									option(value="views") Views
+									option(value="released") Year
+							div.moviedetails
+								| New Value: 
+								textarea(name="newvalue",style="vertical-align:top")
+							div.moviedetails
+								input(type="submit",value="Edit")
+				div.col.col-12.col-sm-9.pr-sm-0.text-center
+					video.col-12(controls=true,controlsList="nodownload",id="video",onClick="Play()")
+						source(src=host+"/"+movieinfo.url)
+						if movie.subtitle
+							track(src=host+"/"+movie.subtitle,srclang="en",kind="subtitles",label="English",default)
+					div.card
+						h4.pt-md-3 Description
+						p.text-left.m-md-3(style="text-indent:1em") #{movieinfo.description}
+			else
+				div.movieinfo
+					h4 File not found
+					div.moviedetails Release Date: 
+					div.moviedetails Views: 
+					div.moviedetails Category:&nbsp;
+						| No Category
+					div.moviedetails Date Added: Not Available
+				div.videocontainer
+					div
+						p Error: Page Not Found
 
-	div.clearfloat
+			div.clearfloat
 
 
 
